@@ -1,0 +1,45 @@
+﻿@page "/editoriales"
+@inject HttpClient _http
+<h3>Editoriales</h3>
+<button class="btn btn-primary">Agregar</button>
+@if (editoriales == null)
+{
+    <br />
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Editorial editorial in editoriales)
+            {
+                <tr>
+                    <td>@editorial.Nombre</td>
+                    <td>
+                        <button class="btn btn-sm"><span class="oi oi-pencil"></span></button>
+                        <button class="btn btn-sm"><span class="oi oi-trash"></span></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code {
+    private List<Editorial>? editoriales;
+
+    protected override async Task OnInitializedAsync()
+    {
+        editoriales = await _http.GetFromJsonAsync<List<Editorial>>("api/editoriales");
+    }
+
+}
