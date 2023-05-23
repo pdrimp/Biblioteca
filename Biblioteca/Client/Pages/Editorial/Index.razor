@@ -1,7 +1,7 @@
 ﻿@page "/editoriales"
 @inject HttpClient _http
 <h3>Editoriales</h3>
-<button class="btn btn-primary">Agregar</button>
+<button class="btn btn-primary mb-3">Agregar</button>
 @if (editoriales == null)
 {
     <br />
@@ -24,8 +24,8 @@ else
                 <tr>
                     <td>@editorial.Nombre</td>
                     <td>
-                        <button class="btn btn-sm"><span class="oi oi-pencil"></span></button>
-                        <button class="btn btn-sm"><span class="oi oi-trash"></span></button>
+                        <button class="btn btn-sm btn-outline-secondary"><span class="oi oi-pencil"></span></button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="()=>Borrar(editorial.Id)"><span class="oi oi-trash"></span></button>
                     </td>
                 </tr>
             }
@@ -34,12 +34,42 @@ else
     </table>
 }
 
+@if (borrarActivo)
+{
+    <VentanaModal onCancelar="CancelarBorrar" onAceptar="AceptarBorrar" />
+}
+
 @code {
     private List<Editorial>? editoriales;
+    private bool borrarActivo = false;
+    private int borrarId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        editoriales = await _http.GetFromJsonAsync<List<Editorial>>("api/editoriales");
+        await Cargar();
     }
 
+    private void Borrar(int id)
+    {
+        borrarActivo = true;
+        borrarId = id;
+    }
+
+    private void CancelarBorrar()
+    {
+        borrarActivo = false;
+        borrarId = 0;
+    }
+
+    private async Task AceptarBorrar()
+    {
+        await _http.DeleteAsync($"/api/editoriales/{borrarId}");
+        await Cargar();
+        CancelarBorrar();
+    }
+
+    private async Task Cargar()
+    {
+        editoriales = await _http.GetFromJsonAsync<List<Editorial>>("api/editoriales");
+    }
 }

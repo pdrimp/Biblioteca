@@ -1,0 +1,25 @@
+﻿<div class="modal show" tabindex="-1" style="display:block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title alert-danger">Nota importante</h5>
+                <button type="button" class="btn-close" @onclick="onCancelar" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>El registro será eliminado permanentemente. ¿Está seguro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="onCancelar">Cancelar</button>
+                <button type="button" class="btn btn-danger" @onclick="onAceptar">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback onAceptar { get; set; }
+    [Parameter]
+    public EventCallback onCancelar { get; set; }
+
+}

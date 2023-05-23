@@ -18,5 +18,6 @@ namespace Biblioteca.Shared.Modelos
         public int EditorialId { get; set; }
         public virtual Editorial? Editorial { get; set; }
         public virtual ICollection<Autor>? Autores { get; set; }
+        public virtual ICollection<Prestamo>? Prestamos { get; set; }
     }
 }

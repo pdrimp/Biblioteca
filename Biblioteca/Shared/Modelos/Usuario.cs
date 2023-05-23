@@ -14,5 +14,7 @@ namespace Biblioteca.Shared.Modelos
         public string? Nombre { get; set; }
         [Required(ErrorMessage = "El correo es obligatorio")]
         public string? Correo { get; set; }
+
+        public virtual ICollection<Prestamo>? Prestamos { get; set; }
     }
 }

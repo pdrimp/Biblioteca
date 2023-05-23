@@ -29,7 +29,7 @@ namespace Biblioteca.Server.Controllers
             {
                 return NotFound();
             }
-            return await _context.Libros.Include(e => e.Editorial).ToListAsync();
+            return await _context.Libros.Include(e => e.Editorial).Include(a=>a.Autores).ToListAsync();
         }
 
         // GET: api/Libros/5
@@ -40,7 +40,7 @@ namespace Biblioteca.Server.Controllers
             {
                 return NotFound();
             }
-            var libro = await _context.Libros.Include(e => e.Editorial).Include(a=>a.Autores).FirstOrDefaultAsync(r => r.Id == id);
+            var libro = await _context.Libros.Include(e => e.Editorial).Include(a=>a.Autores).Include(p=>p.Prestamos).FirstOrDefaultAsync(r => r.Id == id);
 
             if (libro == null)
             {
@@ -106,7 +106,7 @@ namespace Biblioteca.Server.Controllers
                 return Problem("La lista de autores es nula");
             }
 
-            var ellibro = await _context.Libros.FindAsync(id);
+            var ellibro = await _context.Libros.Include(a => a.Autores).FirstOrDefaultAsync(r => r.Id == id);
             if (ellibro != null)
             {
                 if (ellibro.Autores != null)

@@ -12,5 +12,6 @@ namespace Biblioteca.Server.Data
         public DbSet<Editorial> Editoriales { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Autor> Autores { get; set; }
+        public DbSet<Prestamo> Prestamos { get; set; }
     }
 }

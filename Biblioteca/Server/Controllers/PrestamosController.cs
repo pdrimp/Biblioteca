@@ -12,55 +12,55 @@ namespace Biblioteca.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AutoresController : ControllerBase
+    public class PrestamosController : ControllerBase
     {
         private readonly BDBibliotecaContext _context;
 
-        public AutoresController(BDBibliotecaContext context)
+        public PrestamosController(BDBibliotecaContext context)
         {
             _context = context;
         }
 
-        // GET: api/Autores
+        // GET: api/Prestamos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Autor>>> GetAutores()
+        public async Task<ActionResult<IEnumerable<Prestamo>>> GetPrestamos()
         {
-            if (_context.Autores == null)
+            if (_context.Prestamos == null)
             {
                 return NotFound();
             }
-            return await _context.Autores.ToListAsync();
+            return await _context.Prestamos.Include(l => l.Libro).Include(u => u.Usuario).ToListAsync();
         }
 
-        // GET: api/Autores/5
+        // GET: api/Prestamos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Autor>> GetAutor(int id)
+        public async Task<ActionResult<Prestamo>> GetPrestamo(int id)
         {
-            if (_context.Autores == null)
+            if (_context.Prestamos == null)
             {
                 return NotFound();
             }
-            var autor = await _context.Autores.Include(l => l.Libros).ThenInclude(e=>e.Editorial).FirstOrDefaultAsync(r => r.Id == id);
+            var prestamo = await _context.Prestamos.FindAsync(id);
 
-            if (autor == null)
+            if (prestamo == null)
             {
                 return NotFound();
             }
 
-            return autor;
+            return prestamo;
         }
 
-        // PUT: api/Autores/5
+        // PUT: api/Prestamos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAutor(int id, Autor autor)
+        public async Task<IActionResult> PutPrestamo(int id, Prestamo prestamo)
         {
-            if (id != autor.Id)
+            if (id != prestamo.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(autor).State = EntityState.Modified;
+            _context.Entry(prestamo).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace Biblioteca.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AutorExists(id))
+                if (!PrestamoExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace Biblioteca.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Autores
+        // POST: api/Prestamos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Autor>> PostAutor(Autor autor)
+        public async Task<ActionResult<Prestamo>> PostPrestamo(Prestamo prestamo)
         {
-            if (_context.Autores == null)
+            if (_context.Prestamos == null)
             {
-                return Problem("Entity set 'BDBibliotecaContext.Autores'  is null.");
+                return Problem("Entity set 'BDBibliotecaContext.Prestamos'  is null.");
             }
-            _context.Autores.Add(autor);
+            _context.Prestamos.Add(prestamo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAutor", new { id = autor.Id }, autor);
+            return CreatedAtAction("GetPrestamo", new { id = prestamo.Id }, prestamo);
         }
 
-        // DELETE: api/Autores/5
+        // DELETE: api/Prestamos/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAutor(int id)
+        public async Task<IActionResult> DeletePrestamo(int id)
         {
-            if (_context.Autores == null)
+            if (_context.Prestamos == null)
             {
                 return NotFound();
             }
-            var autor = await _context.Autores.FindAsync(id);
-            if (autor == null)
+            var prestamo = await _context.Prestamos.FindAsync(id);
+            if (prestamo == null)
             {
                 return NotFound();
             }
 
-            _context.Autores.Remove(autor);
+            _context.Prestamos.Remove(prestamo);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AutorExists(int id)
+        private bool PrestamoExists(int id)
         {
-            return (_context.Autores?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Prestamos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

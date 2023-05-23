@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Server", "Biblioteca\Server\Biblioteca.Server.csproj", "{9EFCE6EE-7471-49FC-B0DC-6F9B08FA378E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca.Server", "Biblioteca\Server\Biblioteca.Server.csproj", "{9EFCE6EE-7471-49FC-B0DC-6F9B08FA378E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Client", "Biblioteca\Client\Biblioteca.Client.csproj", "{62FD71B8-BDDC-40DD-96DC-8095FB8A2516}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca.Client", "Biblioteca\Client\Biblioteca.Client.csproj", "{62FD71B8-BDDC-40DD-96DC-8095FB8A2516}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Shared", "Biblioteca\Shared\Biblioteca.Shared.csproj", "{9B09ECA9-67CC-4C03-8249-82385841EF4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca.Shared", "Biblioteca\Shared\Biblioteca.Shared.csproj", "{9B09ECA9-67CC-4C03-8249-82385841EF4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
