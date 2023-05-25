@@ -1,0 +1,49 @@
+﻿@page "/editorial/nueva"
+@page "/editorial/editar/{Id:int}"
+@inject HttpClient _http
+@inject NavigationManager _navigator
+<h3>Nueva editorial</h3>
+<EditForm Model="@laEditorial" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="txtNombre" class="form-label">Nombre</label>
+        <InputText class="form-control" id="txtNombre" @bind-Value="laEditorial.Nombre" />
+        <ValidationMessage For="()=>laEditorial.Nombre" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button class="btn btn-danger" @onclick="Cancelar">Cancelar</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Editorial? laEditorial = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            laEditorial = await _http.GetFromJsonAsync<Editorial>($"api/editoriales/{Id}");
+        }
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("editoriales");
+    }
+
+    private async Task Guardar()
+    {
+        if (Id > 0)
+        {
+            await _http.PutAsJsonAsync($"api/editoriales/{Id}", laEditorial);
+        }
+        else
+        {
+            await _http.PostAsJsonAsync("api/editoriales", laEditorial);
+        }
+        Cancelar();
+    }
+}
